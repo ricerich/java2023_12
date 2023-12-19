@@ -31,6 +31,8 @@ public class Ex12_if
 		}
 		else if(op.equals("*"))
 			result = x * y;
+		else
+			System.out.println("사칙연산이 아닙니다.");
 		
 		System.out.println(x + " + " + y + "의 계산 결과는 " + result + "입니다");
 	}
