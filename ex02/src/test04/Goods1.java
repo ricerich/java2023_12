@@ -2,7 +2,7 @@ package test04;
 
 public class Goods1 {
 	// 1.멤버변수(field, member variable)
-	String name;
+	private String name;
 	int price;
 	int numberOfStock;
 	int sold;
@@ -16,7 +16,7 @@ public class Goods1 {
 	}
 
 	// 3.메소드(method)
-	String getName() {
+	public String getName() {
 		return name;
 	}
 
