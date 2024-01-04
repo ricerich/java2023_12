@@ -12,6 +12,10 @@ public class MonthSchedule {
 		sc = new Scanner(System.in);
 		this.totalDay = totalDay;
 		arr = new Day[totalDay];
+		
+		for(int i=0; i<arr.length; i++){
+			arr[i] = new Day();
+		}
 	}
 
 	public void run() {
@@ -45,7 +49,7 @@ public class MonthSchedule {
 		System.out.print("할일(빈칸없이 입력)?");
 		String work = sc.next();
 		day--;
-		arr[day] = new Day();
+		//arr[day] = new Day();//입력받는 순간에 객체를 생성
 		arr[day].set(work);
 	}
 
@@ -55,7 +59,7 @@ public class MonthSchedule {
 		day--;
 		
 		System.out.println((day+1)+"일 의 할일은");
-		if(arr[day] != null)
+//		if(arr[day] != null)
 			arr[day].show();
 		
 	}
