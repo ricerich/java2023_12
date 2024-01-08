@@ -6,27 +6,27 @@ public class Phone
 	//2.생성자
 	//3.메소드
 	
-	String name;
-	String tel;
+	private String name;
+	private String tel;
 	
-//	public Phone(String name, String tel) {
+	public Phone(String name, String tel) {
+		this.name = name;
+		this.tel = tel;
+	}
+	
+//	public void set(String name, String tel) {
 //		this.name = name;
 //		this.tel = tel;
 //	}
 	
-	public void set(String name, String tel) {
-		this.name = name;
-		this.tel = tel;
-	}
-	
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-	public void setTel(String tel)
-	{
-		this.tel = tel;
-	}
+//	public void setName(String name)
+//	{
+//		this.name = name;
+//	}
+//	public void setTel(String tel)
+//	{
+//		this.tel = tel;
+//	}
 	
 	//1.출력을 할것인가? 아니면 2.값을 반환해 줄것인가?
 	//1.출력 예
@@ -43,23 +43,4 @@ public class Phone
 	public String getTel() {
 		return tel;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
