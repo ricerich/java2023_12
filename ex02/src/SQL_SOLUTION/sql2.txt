@@ -1,0 +1,131 @@
+--  (5) 박지성이 구매한 도서의 출판사 수
+    SELECT 
+            COUNT(DISTINCT PUBLISHER) 
+    FROM
+            CUSTOMER C, ORDERS O, BOOK B
+    WHERE
+            C.CUSTID = O.CUSTID
+        AND O.BOOKID = B.BOOKID
+        AND NAME LIKE '박지성';
+    
+    SELECT 
+            COUNT(DISTINCT PUBLISHER) 
+    FROM
+            CUSTOMER JOIN ORDERS 
+                                ON CUSTOMER.CUSTID = ORDERS.CUSTID
+                     JOIN BOOK
+                                ON ORDERS.BOOKID = BOOK.BOOKID
+    WHERE   
+            NAME LIKE '박지성';    
+            
+--  (6) 박지성이 구매한 도서의 이름, 가격, 정가와 판매가격의 차이
+    SELECT 
+            bookname, price, price-saleprice as diff
+    FROM
+            CUSTOMER JOIN ORDERS 
+                                ON CUSTOMER.CUSTID = ORDERS.CUSTID
+                     JOIN BOOK
+                                ON ORDERS.BOOKID = BOOK.BOOKID
+    WHERE   
+            NAME LIKE '박지성'; 
+--  (7) 박지성이 구매하지 않은 도서의 이름
+--1)차집합: 전체도서 - 박지성이 구매한 도서 
+    select bookname from book
+    minus
+    SELECT 
+            bookname 
+    FROM
+            CUSTOMER C, ORDERS O, BOOK B
+    WHERE
+            C.CUSTID = O.CUSTID
+        AND O.BOOKID = B.BOOKID
+        AND NAME LIKE '박지성';    
+    
+    
+--2) Not in    
+    select bookname
+    from book
+    where bookname not in ( SELECT 
+                                    bookname 
+                              FROM
+                                    CUSTOMER C, ORDERS O, BOOK B
+                             WHERE
+                                    C.CUSTID = O.CUSTID
+                               AND O.BOOKID = B.BOOKID
+                               AND NAME LIKE '박지성');
+
+--3) not exists
+    select bookname
+    from book B1
+    where not exists ( SELECT 
+                              bookname 
+                        FROM
+                              CUSTOMER C, ORDERS O
+                       WHERE 
+                             C.CUSTID = O.CUSTID
+                         AND O.BOOKID = B1.BOOKID
+                         AND NAME LIKE '박지성');
+                               
+--2. 마당서점의 운영자와 경영자가 요구하는 다음 질문에 대해 SQL 문을 작성하시오.
+--  (8) 주문하지 않은 고객의 이름(조인 사용)
+--1)차집합
+    select name from customer
+    minus
+    select name 
+    from customer join orders on customer.custid= orders.custid;
+    
+--2)not in
+    select name
+    from customer
+    where name not in (select name 
+                         from customer join orders 
+                                         on customer.custid= orders.custid);
+--3)not exists
+    select name
+    from customer c
+    where not exists (select name 
+                        from customer join orders 
+                                        on customer.custid= orders.custid
+                       where c.custid = customer.custid);
+                       
+    select name
+    from customer c
+    where not exists (select name 
+                        from orders                              
+                       where c.custid = orders.custid);
+--  (9) 주문 금액의 총액과 주문의 평균 금액
+    select sum(saleprice), avg(saleprice)
+    from orders;
+    
+--  (10) 고객의 이름과 고객별 구매액
+    SELECT NAME, SUM(SALEPRICE)
+    FROM CUSTOMER JOIN ORDERS ON CUSTOMER.CUSTID = ORDERS.CUSTID    
+    GROUP BY NAME;
+    --HAVING SUM(SALEPRICE) > 35000;
+
+
+--  (11) 고객의 이름과 고객이 구매한 도서 목록
+    SELECT NAME, BOOKNAME
+    FROM CUSTOMER JOIN ORDERS ON CUSTOMER.CUSTID = ORDERS.CUSTID
+                  JOIN BOOK   ON ORDERS.BOOKID = BOOK.BOOKID;
+    
+    select name, bookname
+      from customer, orders, book
+     where customer.custid = orders.custid 
+       and orders.bookid = book.bookid;                  
+    
+--  (12) 도서의 가격(Book 테이블)과 판매가격(Orders 테이블)의 차이가 가장 많은 주문
+        select *
+        from   book join orders on book.bookid = orders.bookid
+        where 
+               price-saleprice = (select  max(price-saleprice)
+                                   from   book join orders 
+                                               on book.bookid = orders.bookid);
+               
+--  (13) 도서의 판매액 평균보다 자신의 구매액 평균이 더 높은 고객의 이름
+        SELECT NAME, AVG(SALEPRICE)
+        FROM CUSTOMER, ORDERS
+        WHERE CUSTOMER.CUSTID = ORDERS.CUSTID
+        GROUP BY NAME
+        HAVING AVG(SALEPRICE) > (SELECT AVG(SALEPRICE)
+                                  FROM ORDERSL);
