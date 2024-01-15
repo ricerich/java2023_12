@@ -10,7 +10,7 @@ public class ex09 {
 		System.out.print("총 스택의 저장 공간의 크기 입력>>");
 		int capacity = sc.nextInt();
 		
-		StringStack ss1 = new StringStack(capacity);
+		Stack ss1 = new StringStack(capacity);
 		
 		while(true)
 		{
