@@ -131,7 +131,7 @@ public class GraphicEditor
 		
 		//후처리
 		//4.삭제 대상이 마지막 노드일 겨우(current == last)
-		if(current == first)//첫 번째 일 경우
+		if(current == first)//첫 번째 일 경우(두 개중에 앞에꺼 삭제할 경우)
 		{
 			first = first.getNext();
 		}
